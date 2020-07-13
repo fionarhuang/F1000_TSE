@@ -172,6 +172,9 @@ construction. As the column names of the `assays` table and the node labels of t
 # provide the node labels in rowNodeLab
 tip_lab <- row_tree$tip.label
 row_lab <- tip_lab[c(1, 1:5)]
+row_lab
+
+# the column names are consistent with node labels
 all(colnames(assay_data) %in% c(col_tree$tip.label, col_tree$node.label))
 
 both_tse <- TreeSummarizedExperiment(assays = list(assay_data),
@@ -653,8 +656,8 @@ tax_0 <- rowData(tse_phy)[, -1] %>%
 tax_loop <- detectLoop(tax_tab = tax_0)
 
 # show loops that are not caused by NA
-no_na <- tax_loop$child != "NA" & tax_loop$parent != "NA"
-tax_loop[no_na, ]
+no_na <- tax_loop$child == "NA" & tax_loop$parent != "NA"
+head(tax_loop[no_na, ])
 ```
 
 To resolve the loops, we add suffix to the polyphyletic genus with `resolveLoop`. For example, `Ruminococcus` belonging to the `Lachnospiraceae` and the `Ruminococcaceae` families become `Ruminococcus_1` and `Ruminococcus_2`, respectively. A `phylo` tree is created afterwards using `toTree`.
